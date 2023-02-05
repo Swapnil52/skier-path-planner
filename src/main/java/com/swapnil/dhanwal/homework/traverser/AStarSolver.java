@@ -4,10 +4,12 @@ import com.swapnil.dhanwal.homework.graph.Graph;
 import com.swapnil.dhanwal.homework.graph.PathNode;
 import com.swapnil.dhanwal.homework.graph.Point;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.PriorityQueue;
 
-public class AStarSolver extends Solver<PriorityQueue<PathNode>> {
+public class AStarSolver extends Solver {
 
     public AStarSolver(Graph graph, int stamina) {
         super(SolverType.A, graph, stamina);
@@ -16,6 +18,33 @@ public class AStarSolver extends Solver<PriorityQueue<PathNode>> {
     @Override
     protected PriorityQueue<PathNode> initialiseQueue() {
         return new PriorityQueue<>();
+    }
+
+    @Override
+    public List<PathNode> solve(Point source, Point destination) {
+        reset();
+        List<PathNode> solutions = new ArrayList<>();
+        queue.add(new PathNode(source, null, 0));
+        while (!queue.isEmpty()) {
+            PathNode current = queue.remove();
+            if (current.getPoint().equals(destination)) {
+                solutions.add(current);
+            }
+            if (isPointProcessed(current.getPoint())) {
+                if (current.getCost() < findPointInProcessed(current.getPoint()).getCost()) {
+                    addNodeToProcessed(current);
+                }
+                else {
+                    continue;
+                }
+            }
+            else {
+                addNodeToProcessed(current);
+            }
+            List<PathNode> neighbours = getNeighbouringNodes(current, destination);
+            queue.addAll(neighbours);
+        }
+        return solutions;
     }
 
     @Override

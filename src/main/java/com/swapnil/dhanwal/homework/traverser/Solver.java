@@ -12,7 +12,7 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class Solver<Q extends Queue<PathNode>> {
+public abstract class Solver {
 
     protected final SolverType type;
 
@@ -28,7 +28,7 @@ public abstract class Solver<Q extends Queue<PathNode>> {
     */
     protected final PathNode[][] processed;
 
-    protected final Q queue;
+    protected final Queue<PathNode> queue;
 
     public Solver(SolverType type, Graph graph, int stamina) {
         this.type = type;
@@ -66,6 +66,7 @@ public abstract class Solver<Q extends Queue<PathNode>> {
             PathNode current = queue.remove();
             if (current.getPoint().equals(destination)) {
                 solutions.add(current);
+                break;
             }
             if (isPointProcessed(current.getPoint())) {
                 if (current.getCost() < findPointInProcessed(current.getPoint()).getCost()) {
@@ -84,9 +85,9 @@ public abstract class Solver<Q extends Queue<PathNode>> {
         return solutions;
     }
 
-    protected abstract Q initialiseQueue();
+    protected abstract Queue<PathNode> initialiseQueue();
 
-    private List<PathNode> getNeighbouringNodes(PathNode current, Point destination) {
+    List<PathNode> getNeighbouringNodes(PathNode current, Point destination) {
         return Utils.emptyIfNull(getNeighbouringPoints(current)).stream()
                 .filter(next -> isNeighbourSafe(current, next))
                 .map(next -> new PathNode(next, current, getCost(current, next, destination)))
@@ -136,7 +137,7 @@ public abstract class Solver<Q extends Queue<PathNode>> {
      * Utility functions for the queue and corresponding tables.
      * Note: MUST BE CALLED BEFORE EVERY CALL TO SOLVE(...)
      */
-    private void reset() {
+    void reset() {
         queue.clear();
         for (int i = 0; i < graph.getH(); i++) {
             for (int j = 0; j < graph.getW(); j++) {
@@ -145,17 +146,17 @@ public abstract class Solver<Q extends Queue<PathNode>> {
         }
     }
 
-    private void addNodeToProcessed(PathNode node) {
+    void addNodeToProcessed(PathNode node) {
         int i = node.getPoint().getI();
         int j = node.getPoint().getJ();
         processed[i][j] = node;
     }
 
-    private boolean isPointProcessed(Point point) {
+    protected boolean isPointProcessed(Point point) {
         return Objects.nonNull(processed[point.getI()][point.getJ()]);
     }
 
-    private PathNode findPointInProcessed(Point point) {
+    PathNode findPointInProcessed(Point point) {
         return processed[point.getI()][point.getJ()];
     }
 }

@@ -6,15 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9a1c0280-4e15-49ac-a08d-e075c01f08ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paths.txt" beforeDir="false" afterPath="$PROJECT_DIR$/paths.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/PathNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/PathNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/homework.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/homework.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/AStarSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/AStarSolver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/BFSSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/BFSSolver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UCSSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UCSSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/PathCostApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/PathCostApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,34 +114,10 @@
       </map>
     </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/homework.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="86" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="current.getPoint().getI() == 0 &amp;&amp; current.getPoint().getJ() == 1" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java</url>
-          <line>80</line>
-          <option name="timeStamp" value="89" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="90" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/swapnil_dhawnal_csci561_hw1$homework.ic" NAME="homework Coverage Results" MODIFIED="1675629732768" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.swapnil.dhanwal.homework.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/swapnil_dhawnal_csci561_hw1$PathCostApplication.ic" NAME="PathCostApplication Coverage Results" MODIFIED="1675570818490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.swapnil.dhanwal.homework.util.*</FILTER>
     </SUITE>
