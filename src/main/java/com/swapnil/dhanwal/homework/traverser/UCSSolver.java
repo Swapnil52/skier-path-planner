@@ -27,6 +27,6 @@ public class UCSSolver extends Solver<PriorityQueue<PathNode>> {
     protected int getCost(PathNode current, Point next, Point destination) {
         int deltaI = Math.abs(current.getPoint().getI() - next.getI());
         int deltaJ = Math.abs(current.getPoint().getJ() - next.getJ());
-        return (deltaI > 0 && deltaJ > 0) ? 14 : 10;
+        return ((deltaI > 0 && deltaJ > 0) ? 14 : 10) + current.getCost();
     }
 }

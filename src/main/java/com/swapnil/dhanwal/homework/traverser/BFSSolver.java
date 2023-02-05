@@ -4,17 +4,17 @@ import com.swapnil.dhanwal.homework.graph.Graph;
 import com.swapnil.dhanwal.homework.graph.PathNode;
 import com.swapnil.dhanwal.homework.graph.Point;
 
-import java.util.LinkedList;
+import java.util.PriorityQueue;
 
-public class BFSSolver extends Solver<LinkedList<PathNode>> {
+public class BFSSolver extends Solver<PriorityQueue<PathNode>> {
 
     public BFSSolver(Graph graph, int stamina) {
         super(SolverType.BFS, graph, stamina);
     }
 
     @Override
-    protected LinkedList<PathNode> initialiseQueue() {
-        return new LinkedList<>();
+    protected PriorityQueue<PathNode> initialiseQueue() {
+        return new PriorityQueue<>();
     }
 
     /**

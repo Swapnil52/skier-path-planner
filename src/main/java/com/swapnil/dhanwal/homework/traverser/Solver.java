@@ -28,16 +28,6 @@ public abstract class Solver<Q extends Queue<PathNode>> {
     */
     protected final PathNode[][] processed;
 
-    /*
-        We'll update this table whenever we enqueue / dequeue a node. Help's with constant time access
-        to a node in the queue.
-    */
-    protected final PathNode[][] enqueued;
-
-    /*
-        We'll use this queue to store nodes for processing. Initially, it will only contain the source
-        node.
-    */
     protected final Q queue;
 
     public Solver(SolverType type, Graph graph, int stamina) {
@@ -45,7 +35,6 @@ public abstract class Solver<Q extends Queue<PathNode>> {
         this.graph = graph;
         this.stamina = stamina;
         this.processed = new PathNode[graph.getH()][graph.getW()];
-        this.enqueued = new PathNode[graph.getH()][graph.getW()];
         this.queue = initialiseQueue();
     }
 
@@ -56,43 +45,41 @@ public abstract class Solver<Q extends Queue<PathNode>> {
     public int getPathCost(List<Point> points) {
         Point destination = points.get(points.size() - 1);
         PathNode current = new PathNode(points.get(0), null, 0);
+        StringBuilder builder = new StringBuilder();
         for (int i = 1; i < points.size(); i++) {
-            current = new PathNode(points.get(i), current, current.getCost() + getCost(current, points.get(i), destination));
+            if (!isNeighbourSafe(current, points.get(i))) {
+                return -1;
+            }
+            builder.append(String.format("(%d,%d,%d)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
+            current = new PathNode(points.get(i), current, getCost(current, points.get(i), destination));
         }
+        builder.append(String.format("(%d,%d,%d)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
+        System.out.println(builder);
         return current.getCost();
     }
 
     public List<PathNode> solve(Point source, Point destination) {
         reset();
         List<PathNode> solutions = new ArrayList<>();
-        enqueue(new PathNode(source, null, 0));
+        queue.add(new PathNode(source, null, 0));
         while (!queue.isEmpty()) {
-            PathNode current = dequeue();
+            PathNode current = queue.remove();
             if (current.getPoint().equals(destination)) {
                 solutions.add(current);
-                break;
             }
-            addToProcessed(current);
+            if (isPointProcessed(current.getPoint())) {
+                if (current.getCost() < findPointInProcessed(current.getPoint()).getCost()) {
+                    addNodeToProcessed(current);
+                }
+                else {
+                    continue;
+                }
+            }
+            else {
+                addNodeToProcessed(current);
+            }
             List<PathNode> neighbours = getNeighbouringNodes(current, destination);
-            for (PathNode neighbour : neighbours) {
-                if (!isEnqueued(neighbour) && !isProcessed(neighbour)) {
-                    enqueue(neighbour);
-                }
-                else if (isEnqueued(neighbour)) {
-                    PathNode existing = findInQueue(neighbour);
-                    if (neighbour.compareTo(existing) < 0) {
-                        removeFromQueue(existing);
-                        enqueue(neighbour);
-                    }
-                }
-                else if (isProcessed(neighbour)) {
-                    PathNode existing = findInProcessed(neighbour);
-                    if (neighbour.compareTo(existing) < 0) {
-                        removeFromProcessed(existing);
-                        enqueue(neighbour);
-                    }
-                }
-            }
+            queue.addAll(neighbours);
         }
         return solutions;
     }
@@ -102,7 +89,7 @@ public abstract class Solver<Q extends Queue<PathNode>> {
     private List<PathNode> getNeighbouringNodes(PathNode current, Point destination) {
         return Utils.emptyIfNull(getNeighbouringPoints(current)).stream()
                 .filter(next -> isNeighbourSafe(current, next))
-                .map(next -> new PathNode(next, current, getCost(current, next, destination) + current.getCost()))
+                .map(next -> new PathNode(next, current, getCost(current, next, destination)))
                 .collect(Collectors.toList());
     }
 
@@ -154,66 +141,21 @@ public abstract class Solver<Q extends Queue<PathNode>> {
         for (int i = 0; i < graph.getH(); i++) {
             for (int j = 0; j < graph.getW(); j++) {
                 processed[i][j] = null;
-                enqueued[i][j] = null;
             }
         }
     }
 
-    private void enqueue(PathNode node) {
-        int i = node.getPoint().getI();
-        int j = node.getPoint().getJ();
-        enqueued[i][j] = node;
-        queue.add(node);
-    }
-
-    private PathNode dequeue() {
-        PathNode node = queue.remove();
-        int i = node.getPoint().getI();
-        int j = node.getPoint().getJ();
-        enqueued[i][j] = null;
-        return node;
-    }
-
-    private boolean isEnqueued(PathNode node) {
-        int i = node.getPoint().getI();
-        int j = node.getPoint().getJ();
-        return Objects.nonNull(enqueued[i][j]);
-    }
-
-    private PathNode findInQueue(PathNode node) {
-        int i = node.getPoint().getI();
-        int j = node.getPoint().getJ();
-        return enqueued[i][j];
-    }
-
-    private void removeFromQueue(PathNode node) {
-        int i = node.getPoint().getI();
-        int j = node.getPoint().getJ();
-        PathNode toBeRemoved = enqueued[i][j];
-        queue.remove(toBeRemoved);
-    }
-
-    private void addToProcessed(PathNode node) {
+    private void addNodeToProcessed(PathNode node) {
         int i = node.getPoint().getI();
         int j = node.getPoint().getJ();
         processed[i][j] = node;
     }
 
-    private boolean isProcessed(PathNode node) {
-        int i = node.getPoint().getI();
-        int j = node.getPoint().getJ();
-        return Objects.nonNull(processed[i][j]);
+    private boolean isPointProcessed(Point point) {
+        return Objects.nonNull(processed[point.getI()][point.getJ()]);
     }
 
-    private PathNode findInProcessed(PathNode node) {
-        int i = node.getPoint().getI();
-        int j = node.getPoint().getJ();
-        return processed[i][j];
-    }
-
-    private void removeFromProcessed(PathNode node) {
-        int i = node.getPoint().getI();
-        int j = node.getPoint().getJ();
-        processed[i][j] = null;
+    private PathNode findPointInProcessed(Point point) {
+        return processed[point.getI()][point.getJ()];
     }
 }

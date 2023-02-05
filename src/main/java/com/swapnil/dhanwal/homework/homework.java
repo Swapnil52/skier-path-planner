@@ -18,6 +18,7 @@ public class homework {
     private static final String OUTPUT_FILE = "./output.txt";
 
     public static void main(String[] args) throws IOException {
+        long start = System.currentTimeMillis();
         Configuration configuration = loadConfiguration();
         Solver solver = getTraverser(configuration);
 
@@ -30,7 +31,6 @@ public class homework {
 
             if (Utils.isEmpty(solutions)) {
                 writer.append("FAIL\n");
-                break;
             }
             else {
                 solutions.sort(PathNode::compareTo);
@@ -39,6 +39,7 @@ public class homework {
             }
         }
         writer.close();
+        System.out.println((String.format("Time taken: %d", (System.currentTimeMillis() - start) / 1000)));
     }
 
     private static Configuration loadConfiguration() throws IOException {

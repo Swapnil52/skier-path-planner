@@ -47,7 +47,7 @@ public class PathNode implements Comparable<PathNode> {
             stack.pop();
         }
 
-        return builder.toString();
+        return builder.toString().trim();
     }
 
     @Override
