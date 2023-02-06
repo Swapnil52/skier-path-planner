@@ -1,5 +1,3 @@
-package com.swapnil.dhanwal.homework;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -440,8 +438,7 @@ public class homework {
 
     public enum PointType {
         TREE,
-        HILL,
-        UNKNOWN
+        HILL
     }
 
     public static class AStarSolver extends Solver {
@@ -785,10 +782,6 @@ public class homework {
             int i = node.getPoint().getI();
             int j = node.getPoint().getJ();
             processed[i][j] = node;
-        }
-
-        private boolean isPointProcessed(Point point) {
-            return Objects.nonNull(processed[point.getI()][point.getJ()]);
         }
 
         private PathNode findPointInProcessed(Point point) {
