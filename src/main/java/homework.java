@@ -467,6 +467,7 @@ public class homework {
                 PathNode current = queue.remove();
                 if (current.getPoint().equals(destination)) {
                     solutions.add(current);
+                    break;
                 }
                 PathNode existing = findNodeInProcessed(current.getPoint(), current.getApproachDirection());
                 if (Objects.isNull(existing) || current.getCost() < existing.getCost()) {
@@ -475,7 +476,7 @@ public class homework {
                 else {
                     continue;
                 }
-                List<PathNode> neighbours = getNeighbouringNodes(current, destination);
+                List<PathNode> neighbours = getNeighbouringNodes(new SolverContext(current, destination));
                 queue.addAll(neighbours);
             }
             return solutions;
@@ -500,11 +501,10 @@ public class homework {
             }
         }
 
-        /**
-         * Cost = Horizontal move distance + Elevation change cost + Heuristic cost (Euclidean distance)
-         */
         @Override
-        protected int getCost(PathNode current, Point next, Point destination) {
+        protected int getCost(SolverContext context, Point next) {
+            PathNode current = context.getCurrent();
+            Point destination = context.getDestination();
             int horizontalMoveDistance = getHorizontalMoveDistance(current.getPoint(), next);
             int euclideanDistance = getEuclideanDistance(next, destination);
             int elevationChangeCost = getElevationChangeCost(current, next);
@@ -579,12 +579,9 @@ public class homework {
             return new LinkedList<>();
         }
 
-        /**
-         * For BFS, the cost of moving to a neighbour is constant, no matter the direction
-         */
         @Override
-        protected int getCost(PathNode current, Point next, Point destination) {
-            return 10 + current.getCost();
+        protected int getCost(SolverContext context, Point next) {
+            return 10 + context.getCurrent().getCost();
         }
     }
 
@@ -615,7 +612,8 @@ public class homework {
                     return -1;
                 }
                 builder.append(String.format("(%d,%d,%d)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
-                current = new PathNode(points.get(i), current, getCost(current, points.get(i), destination));
+                SolverContext context = new SolverContext(current, destination);
+                current = new PathNode(points.get(i), current, getCost(context, points.get(i)));
             }
             builder.append(String.format("(%d,%d,%d)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
             System.out.println(builder);
@@ -626,16 +624,17 @@ public class homework {
 
         protected abstract Queue<PathNode> initialiseQueue();
 
-        protected List<PathNode> getNeighbouringNodes(PathNode current, Point destination) {
+        protected List<PathNode> getNeighbouringNodes(SolverContext context) {
+            PathNode current = context.getCurrent();
             return Utils.emptyIfNull(getNeighbouringPoints(current)).stream()
                     .filter(next -> isNeighbourSafe(current, next))
-                    .map(next -> new PathNode(next, current, getCost(current, next, destination)))
+                    .map(next -> new PathNode(next, current, getCost(context, next)))
                     .collect(Collectors.toList());
         }
 
         protected abstract boolean isNeighbourSafe(PathNode current, Point next);
 
-        protected abstract int getCost(PathNode current, Point next, Point destination);
+        protected abstract int getCost(SolverContext context, Point next);
 
         protected List<Point> getNeighbouringPoints(PathNode node) {
             int i = node.getPoint().getI();
@@ -683,14 +682,9 @@ public class homework {
             return new PriorityQueue<>();
         }
 
-        /**
-         * For UCS, the cost of a move is calculated as follows:
-         * <p>
-         *     1. If the next vertex is diagonal in any direction, cost += 14
-         *     2. Else cost += 10
-         * </p>
-         */
-        protected int getCost(PathNode current, Point next, Point destination) {
+        @Override
+        protected int getCost(SolverContext context, Point next) {
+            PathNode current = context.getCurrent();
             int deltaI = Math.abs(current.getPoint().getI() - next.getI());
             int deltaJ = Math.abs(current.getPoint().getJ() - next.getJ());
             return ((deltaI > 0 && deltaJ > 0) ? 14 : 10) + current.getCost();
@@ -732,7 +726,7 @@ public class homework {
                 else {
                     continue;
                 }
-                List<PathNode> neighbours = getNeighbouringNodes(current, destination);
+                List<PathNode> neighbours = getNeighbouringNodes(new SolverContext(current, destination));
                 queue.addAll(neighbours);
             }
             return solutions;
@@ -786,6 +780,26 @@ public class homework {
 
         private PathNode findPointInProcessed(Point point) {
             return processed[point.getI()][point.getJ()];
+        }
+    }
+
+    public static class SolverContext {
+
+        private final PathNode current;
+
+        private final Point destination;
+
+        public SolverContext(PathNode current, Point destination) {
+            this.current = current;
+            this.destination = destination;
+        }
+
+        public PathNode getCurrent() {
+            return current;
+        }
+
+        public Point getDestination() {
+            return destination;
         }
     }
 
