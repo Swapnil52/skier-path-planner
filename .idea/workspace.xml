@@ -5,17 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a1c0280-4e15-49ac-a08d-e075c01f08ce" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/ApproachDirection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UninformedSolver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/PathNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/PathNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/ApproachDirection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/Graph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/PathNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/Point.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/PointType.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/homework.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/homework.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/AStarSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/AStarSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/BFSSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/BFSSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UCSSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UCSSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/AStarSolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/BFSSolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/SolverType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/TraverserContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UCSSolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UninformedSolver.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/PathCostApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/PathCostApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +66,7 @@
       <recent name="com.swapnil.dhanwal.homework.graph" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.algo">
+  <component name="RunManager" selected="Application.homework">
     <configuration name="ApproachDirection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.swapnil.dhanwal.homework.graph.ApproachDirection" />
       <module name="swapnil_dhawnal_csci561_hw1" />
@@ -74,12 +80,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PathCostApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.swapnil.dhanwal.homework.util.PathCostApplication" />
+    <configuration name="algo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.swapnil.dhanwal.homework.algo" />
       <module name="swapnil_dhawnal_csci561_hw1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.swapnil.dhanwal.homework.util.*" />
+          <option name="PATTERN" value="com.swapnil.dhanwal.homework.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -87,8 +93,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="algo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.swapnil.dhanwal.homework.algo" />
+    <configuration name="com.swapnil.dhanwal.homework.PathCostApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.swapnil.dhanwal.homework.PathCostApplication" />
       <module name="swapnil_dhawnal_csci561_hw1" />
       <extension name="coverage">
         <pattern>
@@ -116,15 +122,15 @@
     <list>
       <item itemvalue="Application.ApproachDirection" />
       <item itemvalue="Application.algo" />
+      <item itemvalue="Application.com.swapnil.dhanwal.homework.PathCostApplication" />
       <item itemvalue="Application.homework" />
-      <item itemvalue="Application.PathCostApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.algo" />
         <item itemvalue="Application.homework" />
+        <item itemvalue="Application.algo" />
         <item itemvalue="Application.ApproachDirection" />
-        <item itemvalue="Application.PathCostApplication" />
+        <item itemvalue="Application.com.swapnil.dhanwal.homework.PathCostApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -149,17 +155,6 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/AStarSolver.java</url>
-          <line>135</line>
-          <option name="timeStamp" value="95" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/swapnil_dhawnal_csci561_hw1$homework.ic" NAME="homework Coverage Results" MODIFIED="1675629732768" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

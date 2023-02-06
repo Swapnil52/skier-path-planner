@@ -1,8 +1,6 @@
-package com.swapnil.dhanwal.homework.util;
+package com.swapnil.dhanwal.homework;
 
-import com.swapnil.dhanwal.homework.graph.Graph;
-import com.swapnil.dhanwal.homework.graph.Point;
-import com.swapnil.dhanwal.homework.traverser.*;
+import com.swapnil.dhanwal.homework.homework;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,23 +17,23 @@ public class PathCostApplication {
 
     public static void main(String[] args) throws IOException {
         Configuration configuration = loadConfiguration();
-        Graph graph = new Graph(configuration.map, configuration.H, configuration.W);
+        homework.Graph graph = new homework.Graph(configuration.map, configuration.H, configuration.W);
 
-        List<List<Point>> paths = configuration.paths.stream()
+        List<List<homework.Point>> paths = configuration.paths.stream()
                 .map(path -> path.stream()
                         .map(coordinate -> graph.get(coordinate.getI(), coordinate.getJ()))
                         .collect(Collectors.toList()))
                 .collect(Collectors.toList());
 
-        Solver solver = getSolver(configuration.type, graph, configuration.stamina);
-        for (List<Point> path : paths) {
+        homework.Solver solver = getSolver(configuration.type, graph, configuration.stamina);
+        for (List<homework.Point> path : paths) {
             System.out.println(solver.getPathCost(path));
         }
     }
 
     public static class Configuration {
 
-        private final SolverType type;
+        private final homework.SolverType type;
 
         private final int W;
 
@@ -47,7 +45,7 @@ public class PathCostApplication {
 
         private final List<List<Pair>> paths;
 
-        public Configuration(SolverType type, int w, int h, int[][] map, int stamina, List<List<Pair>> paths) {
+        public Configuration(homework.SolverType type, int w, int h, int[][] map, int stamina, List<List<Pair>> paths) {
             this.type = type;
             W = w;
             H = h;
@@ -81,7 +79,7 @@ public class PathCostApplication {
         File file = new File(INPUT_FILE);
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
-        SolverType type;
+        homework.SolverType type;
         int W;
         int H;
         int[][] map;
@@ -90,7 +88,7 @@ public class PathCostApplication {
         List<List<Pair>> paths = new ArrayList<>();
 
         String line = reader.readLine();
-        type = SolverType.fromLabel(line);
+        type = homework.SolverType.fromLabel(line);
 
         line = reader.readLine();
         W = Integer.parseInt(line.split(" ")[0]);
@@ -127,14 +125,14 @@ public class PathCostApplication {
     }
 
 
-    private static Solver getSolver(SolverType type, Graph graph, int stamina) {
+    private static homework.Solver getSolver(homework.SolverType type, homework.Graph graph, int stamina) {
         switch (type) {
             case BFS:
-                return new BFSSolver(graph, stamina);
+                return new homework.BFSSolver(graph, stamina);
             case USC:
-                return new UCSSolver(graph, stamina);
+                return new homework.UCSSolver(graph, stamina);
             case A:
-                return new AStarSolver(graph, stamina);
+                return new homework.AStarSolver(graph, stamina);
             default:
                 throw new IllegalArgumentException("Invalid type received");
         }
