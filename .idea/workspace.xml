@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9a1c0280-4e15-49ac-a08d-e075c01f08ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PathCostApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PathCostApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/homework.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homework.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +47,12 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="homework.Graph" />
+      <recent name="homework.PathNode" />
+      <recent name="homework.Graph.Point" />
+      <recent name="homework.Solver" />
+    </key>
     <key name="MoveInnerDialog.RECENTS_KEY">
       <recent name="com.swapnil.dhanwal.homework.traverser" />
       <recent name="com.swapnil.dhanwal.homework.graph" />
@@ -95,8 +101,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="homework$ApproachDirection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="homework$ApproachDirection" />
+    <configuration name="homework$Graph$PathNode$ApproachDirection" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="homework$Graph$PathNode$ApproachDirection" />
       <module name="swapnil_dhawnal_csci561_hw1" />
       <extension name="coverage">
         <pattern>
@@ -125,13 +131,13 @@
       <item itemvalue="Application.ApproachDirection" />
       <item itemvalue="Application.com.swapnil.dhanwal.homework.PathCostApplication" />
       <item itemvalue="Application.com.swapnil.dhanwal.homework.algo" />
-      <item itemvalue="Application.homework$ApproachDirection" />
+      <item itemvalue="Application.homework$Graph$PathNode$ApproachDirection" />
       <item itemvalue="Application.homework" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.homework" />
-        <item itemvalue="Application.homework$ApproachDirection" />
+        <item itemvalue="Application.homework$Graph$PathNode$ApproachDirection" />
         <item itemvalue="Application.com.swapnil.dhanwal.homework.algo" />
         <item itemvalue="Application.ApproachDirection" />
         <item itemvalue="Application.com.swapnil.dhanwal.homework.PathCostApplication" />
