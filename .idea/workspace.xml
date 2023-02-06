@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a1c0280-4e15-49ac-a08d-e075c01f08ce" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/ApproachDirection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/Graph.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/PathNode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/Point.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/graph/PointType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/homework.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/homework.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/AStarSolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/BFSSolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/Solver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/SolverType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/TraverserContext.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UCSSolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/traverser/UninformedSolver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/PathCostApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/PathCostApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/swapnil/dhanwal/homework/util/Utils.java" afterDir="false" />
-    </list>
+    <list default="true" id="9a1c0280-4e15-49ac-a08d-e075c01f08ce" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,18 +30,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;/Users/swapnildhanwal/Work/swapnil_dhawnal_csci561_hw1/src/main/java/com/swapnil/dhanwal/homework/traverser&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_directory_selection": "/Users/swapnildhanwal/Work/swapnil_dhawnal_csci561_hw1/src/main/java/com/swapnil/dhanwal/homework/traverser",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Java"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveInnerDialog.RECENTS_KEY">
       <recent name="com.swapnil.dhanwal.homework.traverser" />

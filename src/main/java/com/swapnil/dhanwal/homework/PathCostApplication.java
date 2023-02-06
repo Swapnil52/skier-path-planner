@@ -1,7 +1,5 @@
 package com.swapnil.dhanwal.homework;
 
-import com.swapnil.dhanwal.homework.homework;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class PathCostApplication {
 
     public static final String INPUT_FILE = "./paths.txt";
