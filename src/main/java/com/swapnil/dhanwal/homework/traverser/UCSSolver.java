@@ -4,11 +4,9 @@ import com.swapnil.dhanwal.homework.graph.Graph;
 import com.swapnil.dhanwal.homework.graph.PathNode;
 import com.swapnil.dhanwal.homework.graph.Point;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 
-public class UCSSolver extends Solver {
+public class UCSSolver extends UninformedSolver {
 
     public UCSSolver(Graph graph, int stamina) {
         super(SolverType.USC, graph, stamina);

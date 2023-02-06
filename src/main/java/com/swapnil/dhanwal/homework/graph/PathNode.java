@@ -11,13 +11,13 @@ public class PathNode implements Comparable<PathNode> {
 
     private final int cost;
 
+    private final ApproachDirection approachDirection;
+
     public PathNode(Point point, PathNode parent, int cost) {
         this.point = point;
         this.parent = parent;
         this.cost = cost;
-    }
-    public int getCost() {
-        return cost;
+        approachDirection = initialiseApproachDirection();
     }
 
     public PathNode getParent() {
@@ -26,6 +26,14 @@ public class PathNode implements Comparable<PathNode> {
 
     public Point getPoint() {
         return point;
+    }
+
+    public ApproachDirection getApproachDirection() {
+        return approachDirection;
+    }
+
+    public int getCost() {
+        return cost;
     }
 
     public static String getPathString(PathNode node) {
@@ -72,5 +80,14 @@ public class PathNode implements Comparable<PathNode> {
     @Override
     public String toString() {
         return String.format("((%d,%d)[%d])->", point.getI(), point.getJ(), cost);
+    }
+
+    private ApproachDirection initialiseApproachDirection() {
+        if (Objects.isNull(parent)) {
+            return ApproachDirection.NONE;
+        }
+        int deltaI = point.getI() - parent.getPoint().getI();
+        int deltaJ = point.getJ() - parent.getPoint().getJ();
+        return ApproachDirection.fromDelta(deltaI, deltaJ);
     }
 }

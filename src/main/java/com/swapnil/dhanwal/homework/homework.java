@@ -10,6 +10,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class homework {
@@ -169,6 +170,19 @@ public class homework {
 
         public int getJ() {
             return j;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Pair pair = (Pair) o;
+            return i == pair.i && j == pair.j;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(i, j);
         }
     }
 }

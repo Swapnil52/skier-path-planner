@@ -1,5 +1,6 @@
 package com.swapnil.dhanwal.homework.traverser;
 
+import com.swapnil.dhanwal.homework.graph.ApproachDirection;
 import com.swapnil.dhanwal.homework.graph.Graph;
 import com.swapnil.dhanwal.homework.graph.PathNode;
 import com.swapnil.dhanwal.homework.graph.Point;
@@ -11,8 +12,14 @@ import java.util.PriorityQueue;
 
 public class AStarSolver extends Solver {
 
+    private final PathNode[][][] processed;
+
+    private final PriorityQueue<PathNode> queue;
+
     public AStarSolver(Graph graph, int stamina) {
         super(SolverType.A, graph, stamina);
+        processed = new PathNode[graph.getH()][graph.getW()][ApproachDirection.values().length];
+        queue = initialiseQueue();
     }
 
     @Override
@@ -30,16 +37,12 @@ public class AStarSolver extends Solver {
             if (current.getPoint().equals(destination)) {
                 solutions.add(current);
             }
-            if (isPointProcessed(current.getPoint())) {
-                if (current.getCost() < findPointInProcessed(current.getPoint()).getCost()) {
-                    addNodeToProcessed(current);
-                }
-                else {
-                    continue;
-                }
+            PathNode existing = findNodeInProcessed(current.getPoint(), current.getApproachDirection());
+            if (Objects.isNull(existing) || current.getCost() < existing.getCost()) {
+                addNodeToProcessed(current);
             }
             else {
-                addNodeToProcessed(current);
+                continue;
             }
             List<PathNode> neighbours = getNeighbouringNodes(current, destination);
             queue.addAll(neighbours);
@@ -105,5 +108,31 @@ public class AStarSolver extends Solver {
     private int getEuclideanDistance(Point next, Point destination) {
         int multiplier = 10;
         return (int) Math.round(Math.sqrt(Math.pow((multiplier * next.getI() - multiplier * destination.getI()), 2) + Math.pow((multiplier * next.getJ() - multiplier * destination.getJ()), 2)));
+    }
+
+    /**
+     * Utility functions for the queue and corresponding tables.
+     * Note: MUST BE CALLED BEFORE EVERY CALL TO SOLVE(...)
+     */
+    private void reset() {
+        queue.clear();
+        for (int i = 0; i < graph.getH(); i++) {
+            for (int j = 0; j < graph.getW(); j++) {
+                for (int k = 0; k < ApproachDirection.values().length; k++) {
+                    processed[i][j][k] = null;
+                }
+            }
+        }
+    }
+
+    private void addNodeToProcessed(PathNode node) {
+        int i = node.getPoint().getI();
+        int j = node.getPoint().getJ();
+        ApproachDirection approachDirection = node.getApproachDirection();
+        processed[i][j][approachDirection.ordinal()] = node;
+    }
+
+    private PathNode findNodeInProcessed(Point point, ApproachDirection approachDirection) {
+        return processed[point.getI()][point.getJ()][approachDirection.ordinal()];
     }
 }

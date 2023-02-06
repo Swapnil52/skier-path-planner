@@ -6,7 +6,7 @@ import com.swapnil.dhanwal.homework.graph.Point;
 
 import java.util.LinkedList;
 
-public class BFSSolver extends Solver {
+public class BFSSolver extends UninformedSolver {
 
     public BFSSolver(Graph graph, int stamina) {
         super(SolverType.BFS, graph, stamina);
