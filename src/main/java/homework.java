@@ -22,21 +22,18 @@ import java.util.stream.Stream;
 
 public class homework {
 
-    private static final String INPUT_FILE = "./input.txt";
-    private static final String OUTPUT_FILE = "./output.txt";
+    private static final String INPUT_FILE = "input.txt";
+    private static final String OUTPUT_FILE = "output.txt";
 
     public static void main(String[] args) throws IOException {
         long start = System.currentTimeMillis();
         Configuration configuration = loadConfiguration();
-        Solver solver = getTraverser(configuration);
-
+        Solver solver = getSolver(configuration);
         BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE, false));
+
         for (Pair lodgeCoordinate : configuration.lodgeCoordinates) {
-            Graph.Point source = solver.getGraph().get(configuration.startI, configuration.startJ);
             Graph.Point destination = solver.getGraph().get(lodgeCoordinate.getI(), lodgeCoordinate.getJ());
-
-            List<Graph.PathNode> solutions = solver.solve(source, destination);
-
+            List<Graph.PathNode> solutions = solver.solve(destination);
             if (Utils.isEmpty(solutions)) {
                 writer.append("FAIL\n");
             }
@@ -46,6 +43,7 @@ public class homework {
                 writer.append("\n");
             }
         }
+
         writer.close();
         System.out.println((String.format("Time taken: %d", (System.currentTimeMillis() - start) / 1000)));
     }
@@ -99,14 +97,16 @@ public class homework {
         return new Configuration(type, W, H, startJ, startI, stamina, lodges, lodgeCoordinates, map);
     }
 
-    private static Solver getTraverser(Configuration configuration) {
+    private static Solver getSolver(Configuration configuration) {
+        Graph graph = new Graph(configuration.map, configuration.H, configuration.W);
+        Graph.Point source = graph.get(configuration.startI, configuration.startJ);
         switch (configuration.type) {
             case BFS:
-                return new BFSSolver(new Graph(configuration.map, configuration.H, configuration.W), configuration.stamina);
+                return new BFSSolver(graph, source, configuration.stamina);
             case UCS:
-                return new UCSSolver(new Graph(configuration.map, configuration.H, configuration.W), configuration.stamina);
+                return new UCSSolver(graph, source, configuration.stamina);
             case A:
-                return new AStarSolver(new Graph(configuration.map, configuration.H, configuration.W), configuration.stamina);
+                return new AStarSolver(graph, source, configuration.stamina);
             default:
                 throw new IllegalArgumentException("Invalid type received");
         }
@@ -402,20 +402,21 @@ public class homework {
                 private final int deltaI;
                 private final int deltaJ;
 
+                private static final Map<Pair, ApproachDirection> deltas = new HashMap<>();
+
+                static {
+                    for (ApproachDirection approachDirection : values()) {
+                        Pair pair = new Pair(approachDirection.getDeltaI(), approachDirection.getDeltaJ());
+                        deltas.put(pair, approachDirection);
+                    }
+                }
+
                 ApproachDirection(int deltaI, int deltaJ) {
                     this.deltaI = deltaI;
                     this.deltaJ = deltaJ;
                 }
 
                 public static ApproachDirection fromDelta(int deltaI, int deltaJ) {
-                    if (Math.abs(deltaI) > 1 || Math.abs(deltaJ) > 1) {
-                        throw new IllegalArgumentException("Delta in any direction must be at most 1");
-                    }
-                    Map<Pair, ApproachDirection> deltas = new HashMap<>();
-                    for (ApproachDirection approachDirection : values()) {
-                        Pair pair = new Pair(approachDirection.getDeltaI(), approachDirection.getDeltaJ());
-                        deltas.put(pair, approachDirection);
-                    }
                     return deltas.get(new Pair(deltaI, deltaJ));
                 }
 
@@ -436,11 +437,14 @@ public class homework {
 
         protected final Graph graph;
 
+        protected final Graph.Point source;
+
         protected final int stamina;
 
-        public Solver(SolverType type, Graph graph, int stamina) {
+        public Solver(SolverType type, Graph graph, Graph.Point source, int stamina) {
             this.type = type;
             this.graph = graph;
+            this.source = source;
             this.stamina = stamina;
         }
 
@@ -465,7 +469,7 @@ public class homework {
             return current.getCost();
         }
 
-        public abstract List<Graph.PathNode> solve(Graph.Point source, Graph.Point destination);
+        public abstract List<Graph.PathNode> solve(Graph.Point destination);
 
         protected abstract Queue<Graph.PathNode> initialiseQueue();
 
@@ -541,23 +545,22 @@ public class homework {
         /*
             We'll update this whenever we encounter a PathNode for the same point with a smaller cost.
             Note: Any non-null entry in this table suggests that that point has already been visited once.
-            However, unlike BFS, if we encounter a node with a shorter path, we will nullify this entry
-            and enqueue the new node for processing.
+            However, unlike BFS, if we encounter a node with a shorter path, we will replace its entry here.
         */
         protected final Graph.PathNode[][] processed;
 
         protected final Queue<Graph.PathNode> queue;
 
-        public UninformedSolver(SolverType type, Graph graph, int stamina) {
-            super(type, graph, stamina);
+        public UninformedSolver(SolverType type, Graph graph, Graph.Point source, int stamina) {
+            super(type, graph, source, stamina);
             this.processed = new Graph.PathNode[graph.getH()][graph.getW()];
             this.queue = initialiseQueue();
         }
 
-        public List<Graph.PathNode> solve(Graph.Point source, Graph.Point destination) {
+        public List<Graph.PathNode> solve(Graph.Point destination) {
             reset();
             List<Graph.PathNode> solutions = new ArrayList<>();
-            queue.add(new Graph.PathNode(source, null, 0));
+            queue.add(new Graph.PathNode(this.source, null, 0));
             while (!queue.isEmpty()) {
                 Graph.PathNode current = queue.remove();
                 if (current.getPoint().equals(destination)) {
@@ -630,8 +633,8 @@ public class homework {
 
     public static class BFSSolver extends UninformedSolver {
 
-        public BFSSolver(Graph graph, int stamina) {
-            super(SolverType.BFS, graph, stamina);
+        public BFSSolver(Graph graph, Graph.Point source, int stamina) {
+            super(SolverType.BFS, graph, source, stamina);
         }
 
         @Override
@@ -647,8 +650,8 @@ public class homework {
 
     public static class UCSSolver extends UninformedSolver {
 
-        public UCSSolver(Graph graph, int stamina) {
-            super(SolverType.UCS, graph, stamina);
+        public UCSSolver(Graph graph, Graph.Point source, int stamina) {
+            super(SolverType.UCS, graph, source, stamina);
         }
 
         @Override
@@ -671,8 +674,8 @@ public class homework {
 
         private final PriorityQueue<Graph.PathNode> queue;
 
-        public AStarSolver(Graph graph, int stamina) {
-            super(SolverType.A, graph, stamina);
+        public AStarSolver(Graph graph, Graph.Point source, int stamina) {
+            super(SolverType.A, graph, source, stamina);
             processed = new Graph.PathNode[graph.getH()][graph.getW()][Graph.PathNode.ApproachDirection.values().length];
             queue = initialiseQueue();
         }
@@ -683,10 +686,10 @@ public class homework {
         }
 
         @Override
-        public List<Graph.PathNode> solve(Graph.Point source, Graph.Point destination) {
+        public List<Graph.PathNode> solve(Graph.Point destination) {
             reset();
             List<Graph.PathNode> solutions = new ArrayList<>();
-            queue.add(new Graph.PathNode(source, null, 0));
+            queue.add(new Graph.PathNode(this.source, null, 0));
             while (!queue.isEmpty()) {
                 Graph.PathNode current = queue.remove();
                 if (current.getPoint().equals(destination)) {

@@ -123,11 +123,11 @@ public class PathCostApplication {
     private static homework.Solver getSolver(homework.Solver.SolverType type, homework.Graph graph, int stamina) {
         switch (type) {
             case BFS:
-                return new homework.BFSSolver(graph, stamina);
+                return new homework.BFSSolver(graph, null, stamina);
             case UCS:
-                return new homework.UCSSolver(graph, stamina);
+                return new homework.UCSSolver(graph, null, stamina);
             case A:
-                return new homework.AStarSolver(graph, stamina);
+                return new homework.AStarSolver(graph, null, stamina);
             default:
                 throw new IllegalArgumentException("Invalid type received");
         }
