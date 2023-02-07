@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9a1c0280-4e15-49ac-a08d-e075c01f08ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PathCostApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PathCostApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/homework.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homework.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,15 +75,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PathCostApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="PathCostApplication" />
+    <configuration name="HelloWorldApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HelloWorldApplication" />
       <module name="swapnil_dhawnal_csci561_hw1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value=".*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -129,7 +123,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.ApproachDirection" />
-      <item itemvalue="Application.com.swapnil.dhanwal.homework.PathCostApplication" />
+      <item itemvalue="Application.HelloWorldApplication" />
       <item itemvalue="Application.com.swapnil.dhanwal.homework.algo" />
       <item itemvalue="Application.homework$Graph$PathNode$ApproachDirection" />
       <item itemvalue="Application.homework" />
@@ -137,10 +131,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.homework" />
+        <item itemvalue="Application.HelloWorldApplication" />
         <item itemvalue="Application.homework$Graph$PathNode$ApproachDirection" />
         <item itemvalue="Application.com.swapnil.dhanwal.homework.algo" />
         <item itemvalue="Application.ApproachDirection" />
-        <item itemvalue="Application.com.swapnil.dhanwal.homework.PathCostApplication" />
       </list>
     </recent_temporary>
   </component>

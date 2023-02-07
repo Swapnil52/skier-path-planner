@@ -568,7 +568,10 @@ public class homework {
                     break;
                 }
                 Graph.PathNode existing = findPointInProcessed(current.getPoint());
-                if (Objects.isNull(existing) || current.getCost() < existing.getCost()) {
+                if (Objects.isNull(existing)) {
+                    addNodeToProcessed(current);
+                }
+                else if (current.getCost() < existing.getCost()) {
                     addNodeToProcessed(current);
                 }
                 else {
@@ -697,7 +700,10 @@ public class homework {
                     break;
                 }
                 Graph.PathNode existing = findNodeInProcessed(current.getPoint(), current.getApproachDirection());
-                if (Objects.isNull(existing) || current.getCost() < existing.getCost()) {
+                if (Objects.isNull(existing)) {
+                    addNodeToProcessed(current);
+                }
+                else if (current.getCost() < existing.getCost()) {
                     addNodeToProcessed(current);
                 }
                 else {
