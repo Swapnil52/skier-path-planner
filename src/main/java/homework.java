@@ -280,11 +280,11 @@ public class homework {
 
             private final Point destination;
 
-            private final long cost;
+            private final double cost;
 
             private final ApproachDirection approachDirection;
 
-            public PathNode(Point point, PathNode parent, Point destination, long cost) {
+            public PathNode(Point point, PathNode parent, Point destination, double cost) {
                 this.point = point;
                 this.parent = parent;
                 this.destination = destination;
@@ -312,7 +312,7 @@ public class homework {
                 return approachDirection;
             }
 
-            public long getCost() {
+            public double getCost() {
                 return cost;
             }
 
@@ -449,10 +449,10 @@ public class homework {
                 if (!isNeighbourSafe(current, points.get(i))) {
                     return -1;
                 }
-                builder.append(String.format("(%d,%d,%d)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
+                builder.append(String.format("(%d,%d,%f)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
                 current = new Graph.PathNode(points.get(i), current, destination, getCost(current, points.get(i)));
             }
-            builder.append(String.format("(%d,%d,%d)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
+            builder.append(String.format("(%d,%d,%f)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
             System.out.println(builder);
             return current.getCost();
         }
@@ -485,7 +485,7 @@ public class homework {
 
         protected abstract boolean isNeighbourSafe(Graph.PathNode current, Graph.Point next);
 
-        protected abstract long getCost(Graph.PathNode current, Graph.Point next);
+        protected abstract double getCost(Graph.PathNode current, Graph.Point next);
 
         protected List<Graph.Point> getNeighbouringPoints(Graph.PathNode node) {
             int i = node.getPoint().getI();
@@ -656,7 +656,7 @@ public class homework {
         }
 
         @Override
-        protected long getCost(Graph.PathNode current, Graph.Point next) {
+        protected double getCost(Graph.PathNode current, Graph.Point next) {
             return 10 + current.getCost();
         }
     }
@@ -673,7 +673,7 @@ public class homework {
         }
 
         @Override
-        protected long getCost(Graph.PathNode current, Graph.Point next) {
+        protected double getCost(Graph.PathNode current, Graph.Point next) {
             int deltaI = Math.abs(current.getPoint().getI() - next.getI());
             int deltaJ = Math.abs(current.getPoint().getJ() - next.getJ());
             return ((deltaI > 0 && deltaJ > 0) ? 14 : 10) + current.getCost();
@@ -771,10 +771,10 @@ public class homework {
         }
 
         @Override
-        protected long getCost(Graph.PathNode current, Graph.Point next) {
+        protected double getCost(Graph.PathNode current, Graph.Point next) {
             Graph.Point destination = current.getDestination();
             int horizontalMoveDistance = getHorizontalMoveDistance(current.getPoint(), next);
-            long euclideanDistance = getEuclideanDistance(next, destination);
+            double euclideanDistance = getEuclideanDistance(next, destination);
             int elevationChangeCost = getElevationChangeCost(current, next);
             return (horizontalMoveDistance + elevationChangeCost + euclideanDistance) + current.getCost();
         }
@@ -804,9 +804,9 @@ public class homework {
             return Math.max(0, next.getHeight() - current.getPoint().getHeight() - momentum);
         }
 
-        private long getEuclideanDistance(Graph.Point next, Graph.Point destination) {
+        private double getEuclideanDistance(Graph.Point next, Graph.Point destination) {
             double multiplier = 9.85;
-            return Math.round(Math.sqrt(Math.pow((multiplier * next.getI() - multiplier * destination.getI()), 2) + Math.pow((multiplier * next.getJ() - multiplier * destination.getJ()), 2)));
+            return (Math.sqrt(Math.pow((multiplier * next.getI() - multiplier * destination.getI()), 2) + Math.pow((multiplier * next.getJ() - multiplier * destination.getJ()), 2)));
         }
 
         private static class Key {
