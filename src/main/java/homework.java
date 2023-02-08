@@ -459,10 +459,9 @@ public class homework {
 
         public Map<Graph.Point, Graph.PathNode> solve() {
             Map<Graph.Point, Graph.PathNode> solutions = new HashMap<>();
-            List<List<Graph.Point>> batches = Utils.partition(destinations, BATCH_SIZE);
-            for (List<Graph.Point> batch : batches) {
-                Map<Graph.Point, Graph.PathNode> solution = solve(batch);
-                solutions.putAll(solution);
+            for (Graph.Point destination : destinations) {
+                Graph.PathNode solution = solve(destination);
+                solutions.put(destination, solution);
             }
             return solutions;
         }
