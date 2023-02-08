@@ -33,15 +33,9 @@ public class homework {
 
         for (Pair lodgeCoordinate : configuration.lodgeCoordinates) {
             Graph.Point destination = solver.getGraph().get(lodgeCoordinate.getI(), lodgeCoordinate.getJ());
-            List<Graph.PathNode> solutions = solver.solve(destination);
-            if (Utils.isEmpty(solutions)) {
-                writer.append("FAIL\n");
-            }
-            else {
-                solutions.sort(Graph.PathNode::compareTo);
-                writer.append(Graph.PathNode.getPathString(solutions.get(0)));
-                writer.append("\n");
-            }
+            Graph.PathNode solution = solver.solve(destination);
+            writer.append(Graph.PathNode.getPathString(solution));
+            writer.append("\n");
         }
 
         writer.close();
@@ -94,7 +88,7 @@ public class homework {
             }
         }
 
-        return new Configuration(type, W, H, startJ, startI, stamina, lodges, lodgeCoordinates, map);
+        return new Configuration(type, W, H, startJ, startI, stamina, lodgeCoordinates, map);
     }
 
     private static Solver getSolver(Configuration configuration) {
@@ -130,34 +124,19 @@ public class homework {
 
         private final int stamina;
 
-        private final int lodges;
-
         private final List<Pair> lodgeCoordinates;
 
         private final int[][] map;
 
-        public Configuration(Solver.SolverType type, int w, int h, int startJ, int startI, int stamina, int lodges, List<Pair> lodgeCoordinates, int[][] map) {
+        public Configuration(Solver.SolverType type, int w, int h, int startJ, int startI, int stamina, List<Pair> lodgeCoordinates, int[][] map) {
             this.type = type;
             W = w;
             H = h;
             this.startJ = startJ;
             this.startI = startI;
             this.stamina = stamina;
-            this.lodges = lodges;
             this.lodgeCoordinates = lodgeCoordinates;
             this.map = map;
-        }
-
-        public int getW() {
-            return W;
-        }
-
-        public int getH() {
-            return H;
-        }
-
-        public int getLodges() {
-            return lodges;
         }
     }
 
@@ -304,11 +283,11 @@ public class homework {
 
             private final Point destination;
 
-            private final double cost;
+            private final long cost;
 
             private final ApproachDirection approachDirection;
 
-            public PathNode(Point point, PathNode parent, Point destination, double cost) {
+            public PathNode(Point point, PathNode parent, Point destination, long cost) {
                 this.point = point;
                 this.parent = parent;
                 this.destination = destination;
@@ -336,7 +315,7 @@ public class homework {
                 return approachDirection;
             }
 
-            public double getCost() {
+            public long getCost() {
                 return cost;
             }
 
@@ -383,7 +362,7 @@ public class homework {
 
             @Override
             public String toString() {
-                return String.format("((%d,%d)[%f])->", point.getI(), point.getJ(), cost);
+                return String.format("((%d,%d)[%d])->", point.getI(), point.getJ(), cost);
             }
 
             private ApproachDirection initialiseApproachDirection() {
@@ -471,15 +450,15 @@ public class homework {
                 if (!isNeighbourSafe(current, points.get(i))) {
                     return -1;
                 }
-                builder.append(String.format("(%d,%d,%f)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
+                builder.append(String.format("(%d,%d,%d)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
                 current = new Graph.PathNode(points.get(i), current, destination, getCost(current, points.get(i)));
             }
-            builder.append(String.format("(%d,%d,%f)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
+            builder.append(String.format("(%d,%d,%d)->", current.getPoint().getJ(), current.getPoint().getI(), current.getCost()));
             System.out.println(builder);
             return current.getCost();
         }
 
-        public abstract List<Graph.PathNode> solve(Graph.Point destination);
+        public abstract Graph.PathNode solve(Graph.Point destination);
 
         protected abstract Queue<Graph.PathNode> initialiseQueue();
 
@@ -492,7 +471,7 @@ public class homework {
 
         protected abstract boolean isNeighbourSafe(Graph.PathNode current, Graph.Point next);
 
-        protected abstract double getCost(Graph.PathNode current, Graph.Point next);
+        protected abstract long getCost(Graph.PathNode current, Graph.Point next);
 
         protected List<Graph.Point> getNeighbouringPoints(Graph.PathNode node) {
             int i = node.getPoint().getI();
@@ -535,16 +514,14 @@ public class homework {
             super(type, graph, source, destinations, stamina);
         }
 
-        public List<Graph.PathNode> solve(Graph.Point destination) {
+        public Graph.PathNode solve(Graph.Point destination) {
             Map<Key, Graph.PathNode> processed = new HashMap<>();
             Queue<Graph.PathNode> queue = initialiseQueue();
-            List<Graph.PathNode> solutions = new ArrayList<>();
             queue.add(new Graph.PathNode(this.source, null, destination, 0));
             while (!queue.isEmpty()) {
                 Graph.PathNode current = queue.remove();
                 if (current.isDestination()) {
-                    solutions.add(current);
-                    break;
+                    return current;
                 }
                 Key key = Key.of(current);
                 Graph.PathNode existing = processed.get(key);
@@ -560,7 +537,7 @@ public class homework {
                 List<Graph.PathNode> neighbours = getNeighbouringNodes(current);
                 queue.addAll(neighbours);
             }
-            return solutions;
+            return null;
         }
 
         /**
@@ -631,7 +608,7 @@ public class homework {
         }
 
         @Override
-        protected double getCost(Graph.PathNode current, Graph.Point next) {
+        protected long getCost(Graph.PathNode current, Graph.Point next) {
             return 10 + current.getCost();
         }
     }
@@ -648,7 +625,7 @@ public class homework {
         }
 
         @Override
-        protected double getCost(Graph.PathNode current, Graph.Point next) {
+        protected long getCost(Graph.PathNode current, Graph.Point next) {
             int deltaI = Math.abs(current.getPoint().getI() - next.getI());
             int deltaJ = Math.abs(current.getPoint().getJ() - next.getJ());
             return ((deltaI > 0 && deltaJ > 0) ? 14 : 10) + current.getCost();
@@ -667,16 +644,14 @@ public class homework {
         }
 
         @Override
-        public List<Graph.PathNode> solve(Graph.Point destination) {
+        public Graph.PathNode solve(Graph.Point destination) {
             Map<Key, Graph.PathNode> processed = new HashMap<>();
             Queue<Graph.PathNode> queue = initialiseQueue();
-            List<Graph.PathNode> solutions = new ArrayList<>();
             queue.add(new Graph.PathNode(this.source, null, destination, 0));
             while (!queue.isEmpty()) {
                 Graph.PathNode current = queue.remove();
                 if (current.isDestination()) {
-                    solutions.add(current);
-                    break;
+                    return current;
                 }
                 Key key = Key.of(current);
                 Graph.PathNode existing = processed.get(key);
@@ -692,7 +667,7 @@ public class homework {
                 List<Graph.PathNode> neighbours = getNeighbouringNodes(current);
                 queue.addAll(neighbours);
             }
-            return solutions;
+            return null;
         }
 
         @Override
@@ -715,10 +690,10 @@ public class homework {
         }
 
         @Override
-        protected double getCost(Graph.PathNode current, Graph.Point next) {
+        protected long getCost(Graph.PathNode current, Graph.Point next) {
             Graph.Point destination = current.getDestination();
             int horizontalMoveDistance = getHorizontalMoveDistance(current.getPoint(), next);
-            double euclideanDistance = getEuclideanDistance(next, destination);
+            long euclideanDistance = getEuclideanDistance(next, destination);
             int elevationChangeCost = getElevationChangeCost(current, next);
             return (horizontalMoveDistance + elevationChangeCost + euclideanDistance) + current.getCost();
         }
@@ -748,9 +723,9 @@ public class homework {
             return Math.max(0, next.getHeight() - current.getPoint().getHeight() - momentum);
         }
 
-        private double getEuclideanDistance(Graph.Point next, Graph.Point destination) {
+        private long getEuclideanDistance(Graph.Point next, Graph.Point destination) {
             double multiplier = 9.85;
-            return Math.sqrt(Math.pow((multiplier * next.getI() - multiplier * destination.getI()), 2) + Math.pow((multiplier * next.getJ() - multiplier * destination.getJ()), 2));
+            return Math.round(Math.sqrt(Math.pow((multiplier * next.getI() - multiplier * destination.getI()), 2) + Math.pow((multiplier * next.getJ() - multiplier * destination.getJ()), 2)));
         }
 
         private static class Key {
