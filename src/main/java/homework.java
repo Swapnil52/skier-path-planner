@@ -30,14 +30,12 @@ public class homework {
         Configuration configuration = loadConfiguration();
         Solver solver = getSolver(configuration);
         BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE, false));
-
-        for (Pair lodgeCoordinate : configuration.lodgeCoordinates) {
-            Graph.Point destination = solver.getGraph().get(lodgeCoordinate.getI(), lodgeCoordinate.getJ());
-            Graph.PathNode solution = solver.solve(destination);
+        Map<Graph.Point, Graph.PathNode> solutions = solver.solve();
+        for (Graph.Point destination : Utils.emptyIfNull(solver.getDestinations())) {
+            Graph.PathNode solution = solutions.get(destination);
             writer.append(Graph.PathNode.getPathString(solution));
             writer.append("\n");
         }
-
         writer.close();
         System.out.println((String.format("Time taken: %d", (System.currentTimeMillis() - start) / 1000)));
     }
@@ -94,10 +92,9 @@ public class homework {
     private static Solver getSolver(Configuration configuration) {
         Graph graph = new Graph(configuration.map, configuration.H, configuration.W);
         Graph.Point source = graph.get(configuration.startI, configuration.startJ);
-        List<Graph.Point> destinations = new ArrayList<>();
-        for (Pair lodgeCoordinate : configuration.lodgeCoordinates) {
-            destinations.add(graph.get(lodgeCoordinate.getI(), lodgeCoordinate.getJ()));
-        }
+        List<Graph.Point> destinations = Utils.emptyIfNull(configuration.lodgeCoordinates).stream()
+                .map(coordinate -> graph.get(coordinate.getI(), coordinate.getJ()))
+                .collect(Collectors.toList());
         switch (configuration.type) {
             case BFS:
                 return new BFSSolver(graph, source, destinations, configuration.stamina);
@@ -420,6 +417,8 @@ public class homework {
 
     public abstract static class Solver {
 
+        private static final int BATCH_SIZE = 50;
+
         protected final SolverType type;
 
         protected final Graph graph;
@@ -458,7 +457,23 @@ public class homework {
             return current.getCost();
         }
 
+        public Map<Graph.Point, Graph.PathNode> solve() {
+            Map<Graph.Point, Graph.PathNode> solutions = new HashMap<>();
+            List<List<Graph.Point>> batches = Utils.partition(destinations, BATCH_SIZE);
+            for (List<Graph.Point> batch : batches) {
+                Map<Graph.Point, Graph.PathNode> solution = solve(batch);
+                solutions.putAll(solution);
+            }
+            return solutions;
+        }
+
+        public List<Graph.Point> getDestinations() {
+            return destinations;
+        }
+
         public abstract Graph.PathNode solve(Graph.Point destination);
+
+        protected abstract Map<Graph.Point, Graph.PathNode> solve(List<Graph.Point> destinations);
 
         protected abstract Queue<Graph.PathNode> initialiseQueue();
 
@@ -538,6 +553,40 @@ public class homework {
                 queue.addAll(neighbours);
             }
             return null;
+        }
+
+        @Override
+        protected Map<Graph.Point, Graph.PathNode> solve(List<Graph.Point> destinations) {
+            Map<Graph.Point, Graph.PathNode> solutions = new HashMap<>();
+            Map<Key, Graph.PathNode> processed = new HashMap<>();
+            Queue<Graph.PathNode> queue = initialiseQueue();
+            for (Graph.Point destination : Utils.emptyIfNull(destinations)) {
+                queue.add(new Graph.PathNode(source, null, destination, 0));
+            }
+            while (!queue.isEmpty()) {
+                Graph.PathNode current = queue.remove();
+                if (current.isDestination()) {
+                    solutions.put(current.getDestination(), current);
+                    continue;
+                }
+                else if (solutions.containsKey(current.getDestination())) {
+                    continue;
+                }
+                Key key = Key.of(current);
+                Graph.PathNode existing = processed.get(key);
+                if (Objects.isNull(existing)) {
+                    processed.put(key, current);
+                }
+                else if (current.getCost() < existing.getCost()) {
+                    processed.put(key, current);
+                }
+                else {
+                    continue;
+                }
+                List<Graph.PathNode> neighbours = getNeighbouringNodes(current);
+                queue.addAll(neighbours);
+            }
+            return solutions;
         }
 
         /**
@@ -671,6 +720,39 @@ public class homework {
         }
 
         @Override
+        protected Map<Graph.Point, Graph.PathNode> solve(List<Graph.Point> destinations) {
+            Map<Graph.Point, Graph.PathNode> solutions = new HashMap<>();
+            Map<Key, Graph.PathNode> processed = new HashMap<>();
+            Queue<Graph.PathNode> queue = initialiseQueue();
+            for (Graph.Point destination : destinations) {
+                queue.add(new Graph.PathNode(source, null, destination, 0));
+            }
+            while (!queue.isEmpty()) {
+                Graph.PathNode current = queue.remove();
+                if (current.isDestination()) {
+                    solutions.put(current.getDestination(), current);
+                }
+                else if (solutions.containsKey(current.getDestination())) {
+                    continue;
+                }
+                Key key = Key.of(current);
+                Graph.PathNode existing = processed.get(key);
+                if (Objects.isNull(existing)) {
+                    processed.put(key, current);
+                }
+                else if (current.getCost() < existing.getCost()) {
+                    processed.put(key, current);
+                }
+                else {
+                    continue;
+                }
+                List<Graph.PathNode> neighbours = getNeighbouringNodes(current);
+                queue.addAll(neighbours);
+            }
+            return solutions;
+        }
+
+        @Override
         protected boolean isNeighbourSafe(Graph.PathNode current, Graph.Point next) {
             if (Objects.isNull(current)) {
                 throw new IllegalStateException("Current node cannot be null");
@@ -775,6 +857,24 @@ public class homework {
                 return true;
             }
             return collection.size() == 0;
+        }
+
+        public static <T> List<List<T>> partition(List<T> list, int batchSize) {
+            List<List<T>> batches = new ArrayList<>();
+            List<T> batch = new ArrayList<>();
+            int i = 0;
+            while (i < list.size()) {
+                batch.add(list.get(i));
+                i++;
+                if (i % batchSize == 0) {
+                    batches.add(batch);
+                    batch = new ArrayList<>();
+                }
+            }
+            if (!isEmpty(batch)) {
+                batches.add(batch);
+            }
+            return batches;
         }
     }
 }
